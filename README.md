@@ -14,7 +14,7 @@ This Sample is found within the [WebView2APISample](WebView2APISample) directory
 
 The Microsoft Edge WebView2APISample is a comprehensive example of our SDK's capabilities. As we add more functionality, we will update the API Sample.
 
-## 3. WebView2 API Sample
+## 3. WPF WebView2 API Sample
 
 This Sample is found within the [WpfWebView2APISample](WpfWebView2APISample) directory.
 

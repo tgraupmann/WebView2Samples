@@ -14,7 +14,13 @@ This Sample is found within the [WebView2APISample](WebView2APISample) directory
 
 The Microsoft Edge WebView2APISample is a comprehensive example of our SDK's capabilities. As we add more functionality, we will update the API Sample.
 
-## 3. WebView2 Browser Example
+## 3. WebView2 API Sample
+
+This Sample is found within the [WpfWebView2APISample](WpfWebView2APISample) directory.
+
+The Microsoft Edge WpfWebView2APISample is an example with a Win32 WebView2 Control hosted in WPF.
+
+## 4. WebView2 Browser Example
 
 Clone the [WebView2Browser](https://github.com/MicrosoftEdge/WebView2Browser) by running `git clone https://github.com/MicrosoftEdge/WebView2Browser.git` to get started.
 

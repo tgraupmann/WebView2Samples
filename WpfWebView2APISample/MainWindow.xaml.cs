@@ -33,6 +33,12 @@ namespace WpfWebView2APISample
         public MainWindow()
         {
             InitializeComponent();
+
+            int result = LibControlWebView2.PluginInit();
+            if (result == 123)
+            {
+
+            }
         }
 
         private void On_UIReady(object sender, EventArgs e)

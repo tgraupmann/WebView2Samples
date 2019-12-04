@@ -3,3 +3,6 @@
 WpfWebView2APISample/.vs/
 WpfWebView2APISample/obj/
 WpfWebView2APISample/bin/
+WpfWebView2APISample/Debug/
+WpfWebView2APISample/LibControlWebView2/Debug/
+WpfWebView2APISample/packages/

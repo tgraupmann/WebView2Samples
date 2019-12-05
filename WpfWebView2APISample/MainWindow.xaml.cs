@@ -24,18 +24,24 @@ namespace WpfWebView2APISample
             InitializeComponent();
         }
 
-        private void On_UIReady(object sender, EventArgs e)
+        private void OnCompleteWebView2()
         {
-            _app = Application.Current;
-            _myWindow = _app.MainWindow;
-
-            _myWindow.SizeToContent = SizeToContent.WidthAndHeight;
-
             // ControlHostElement - XAML element to display the browser
             _win32Control = new ControlHost(ControlHostElement.ActualHeight, ControlHostElement.ActualWidth);
             ControlHostElement.Child = _win32Control;
             _win32Control.MessageHook += ControlMsgFilter;
             _hwndControl = _win32Control.HwndControl;
+        }
+
+        private void On_UIReady(object sender, EventArgs e)
+        {
+            _app = Application.Current;
+            _myWindow = _app.MainWindow;
+
+            IntPtr windowHandle = new WindowInteropHelper(_myWindow).Handle;
+            LibControlWebView2.PluginInit(windowHandle, OnCompleteWebView2);
+
+            _myWindow.SizeToContent = SizeToContent.WidthAndHeight;
         }
 
         private IntPtr ControlMsgFilter(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

@@ -14,19 +14,23 @@ using namespace Microsoft::WRL;
 #define EXPORT_API // XCode does not need annotating exported functions, so define is empty
 #endif
 
+HWND g_HwndControl = nullptr;
+HWND g_HwndHost = nullptr;
 IWebView2WebView* g_WebviewWindow = nullptr;
 
-void SetupWebView2(HWND hWnd)
+typedef void(__stdcall* DelegateComplete)();
+
+void SetupWebView2(HWND hWnd, DelegateComplete callback)
 {
 	// Step 3 - Create a single WebView within the parent window
 	// Locate the browser and set up the environment for WebView
 	CreateWebView2EnvironmentWithDetails(nullptr, nullptr, nullptr,
 		Callback<IWebView2CreateWebView2EnvironmentCompletedHandler>(
-			[hWnd](HRESULT result, IWebView2Environment* env) -> HRESULT {
+			[hWnd, callback](HRESULT result, IWebView2Environment* env) -> HRESULT {
 
 				// Create a WebView, whose parent is the main window hWnd
 				env->CreateWebView(hWnd, Callback<IWebView2CreateWebViewCompletedHandler>(
-					[hWnd](HRESULT result, IWebView2WebView* webview) -> HRESULT {
+					[hWnd, callback](HRESULT result, IWebView2WebView* webview) -> HRESULT {
 					if (webview != nullptr) {
 						g_WebviewWindow = webview;
 					}
@@ -43,6 +47,9 @@ void SetupWebView2(HWND hWnd)
 					RECT bounds;
 					GetClientRect(hWnd, &bounds);
 					g_WebviewWindow->put_Bounds(bounds);
+
+					// notify caller that the webview is ready
+					callback();
 
 					// Schedule an async task to navigate to Bing
 					g_WebviewWindow->Navigate(L"https://www.bing.com/");
@@ -65,20 +72,20 @@ void SetupWebView2(HWND hWnd)
 extern "C"
 {
 
-	EXPORT_API int PluginInit(HWND hWnd)
+	EXPORT_API int PluginInit(HWND hWnd, DelegateComplete callback)
 	{
-		SetupWebView2(hWnd);
+		SetupWebView2(hWnd, callback);
 		return 123;
 	}
 
 	EXPORT_API HWND PluginGetControl()
 	{
-		return nullptr;
+		return g_HwndControl;
 	}
 
 	EXPORT_API HWND PluginGetHost()
 	{
-		return nullptr;
+		return g_HwndHost;
 	}
 }
 

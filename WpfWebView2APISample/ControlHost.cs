@@ -36,8 +36,6 @@ namespace WpfWebView2APISample
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            LibControlWebView2.PluginInit(hwndParent.Handle);
-
             HwndControl = LibControlWebView2.PluginGetControl();
             _hwndHost = LibControlWebView2.PluginGetHost();
             return new HandleRef(this, _hwndHost);

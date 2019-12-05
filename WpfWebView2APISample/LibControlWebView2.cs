@@ -10,8 +10,11 @@ namespace WpfWebView2APISample
     {
         const string DLL_NAME = "LibControlWebView2";
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void DelegateComplete();
+
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int PluginInit(IntPtr hwnd);
+        public static extern int PluginInit(IntPtr hwnd, DelegateComplete callback);
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr PluginGetControl();

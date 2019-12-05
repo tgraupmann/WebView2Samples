@@ -15,7 +15,6 @@ using namespace Microsoft::WRL;
 #endif
 
 HWND g_HwndControl = nullptr;
-HWND g_HwndHost = nullptr;
 IWebView2WebView* g_WebviewWindow = nullptr;
 
 typedef void(__stdcall* DelegateComplete)();
@@ -81,11 +80,6 @@ extern "C"
 	EXPORT_API HWND PluginGetControl()
 	{
 		return g_HwndControl;
-	}
-
-	EXPORT_API HWND PluginGetHost()
-	{
-		return g_HwndHost;
 	}
 }
 

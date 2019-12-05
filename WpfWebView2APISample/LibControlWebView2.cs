@@ -18,8 +18,5 @@ namespace WpfWebView2APISample
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr PluginGetControl();
-
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr PluginGetHost();
     }
 }

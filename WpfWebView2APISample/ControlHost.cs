@@ -18,7 +18,6 @@ namespace WpfWebView2APISample
             WsVisible = 0x10000000,
             LbsNotify = 0x00000001,
             HostId = 0x00000002,
-            ListboxId = 0x00000001,
             WsVscroll = 0x00200000,
             WsBorder = 0x00800000;
 
@@ -34,17 +33,33 @@ namespace WpfWebView2APISample
 
         public IntPtr HwndControl { get; private set; }
 
+        private void OnCompleteWebView2()
+        {
+            if (true)
+            {
+                //HwndControl = LibControlWebView2.PluginGetControl();
+            }
+        }
+
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            HwndControl = LibControlWebView2.PluginGetControl();
-            _hwndHost = LibControlWebView2.PluginGetHost();
+            _hwndHost = CreateWindowEx(0, "static", "",
+                WsChild | WsVisible,
+                0, 0,
+                _hostHeight, _hostWidth,
+                hwndParent.Handle,
+                (IntPtr)HostId,
+                IntPtr.Zero,
+                0);
+
+            LibControlWebView2.PluginInit(_hwndHost, OnCompleteWebView2);
+
             return new HandleRef(this, _hwndHost);
         }
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            handled = false;
-            return IntPtr.Zero;
+            return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
 
         protected override void DestroyWindowCore(HandleRef hwnd)

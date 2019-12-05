@@ -50,7 +50,7 @@ void SetupWebView2(HWND hWnd, DelegateComplete callback)
 					callback();
 
 					// Schedule an async task to navigate to Bing
-					g_WebviewWindow->Navigate(L"https://www.bing.com/");
+					//g_WebviewWindow->Navigate(L"https://www.bing.com/");
 
 					// Step 4 - Navigation events
 
@@ -76,8 +76,18 @@ extern "C"
 		return 123;
 	}
 
+	EXPORT_API void PluginNavigate()
+	{
+		if (g_WebviewWindow)
+		{
+			// Schedule an async task to navigate to Bing
+			g_WebviewWindow->Navigate(L"https://www.bing.com/");
+		}
+	}
+
 	EXPORT_API bool PluginHandleWindowMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* result)
 	{
+		/*
 		switch (message)
 		{
 			case WM_SIZE:
@@ -100,6 +110,7 @@ extern "C"
 			}
 			break;
 		}
+		*/
 		return false;
 	}
 }

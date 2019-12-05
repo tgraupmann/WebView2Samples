@@ -33,9 +33,7 @@ namespace WpfWebView2APISample
 
         private void OnCompleteWebView2()
         {
-            if (true)
-            {
-            }
+            LibControlWebView2.PluginNavigate();
         }
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)

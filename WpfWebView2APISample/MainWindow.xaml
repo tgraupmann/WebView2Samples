@@ -9,8 +9,8 @@
 
     <DockPanel Background="#066">
         <Border Name="ControlHostElement"
-    Width="800"
-    Height="600"
+    Width="400"
+    Height="200"
     HorizontalAlignment="Left"
     VerticalAlignment="Top"
     BorderBrush="LightGray"
@@ -31,6 +31,7 @@
             <Label HorizontalAlignment="Center" Foreground="#FFF">This window should display a browser</Label>
             <StackPanel Orientation="Horizontal"/>
             <Line X1="0" X2="200" Stroke="LightYellow" StrokeThickness="2" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+            <Button Name="BtnNavigate" Width="150" Margin="10" Click="BtnNavigate_Click">Navigate</Button>
         </StackPanel>
     </DockPanel>
 </Window>

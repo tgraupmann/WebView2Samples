@@ -59,5 +59,10 @@ namespace WpfWebView2APISample
             int msg,
             IntPtr wParam,
             string lParam);
+
+        private void BtnNavigate_Click(object sender, RoutedEventArgs e)
+        {
+            //LibControlWebView2.PluginNavigate();
+        }
     }
 }

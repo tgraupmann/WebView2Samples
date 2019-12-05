@@ -14,7 +14,6 @@ using namespace Microsoft::WRL;
 #define EXPORT_API // XCode does not need annotating exported functions, so define is empty
 #endif
 
-HWND g_HwndControl = nullptr;
 IWebView2WebView* g_WebviewWindow = nullptr;
 
 typedef void(__stdcall* DelegateComplete)();
@@ -77,9 +76,30 @@ extern "C"
 		return 123;
 	}
 
-	EXPORT_API HWND PluginGetControl()
+	EXPORT_API bool PluginHandleWindowMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* result)
 	{
-		return g_HwndControl;
+		switch (message)
+		{
+			case WM_SIZE:
+			{
+				if (g_WebviewWindow)
+				{
+					RECT bounds;
+					GetClientRect(hWnd, &bounds);
+					g_WebviewWindow->put_Bounds(bounds);
+				}
+			}
+			break;
+			case WM_PAINT:
+			{
+				PAINTSTRUCT ps;
+				BeginPaint(hWnd, &ps);
+				EndPaint(hWnd, &ps);
+				return true;
+			}
+			break;
+		}
+		return false;
 	}
 }
 

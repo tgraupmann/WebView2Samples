@@ -17,6 +17,6 @@ namespace WpfWebView2APISample
         public static extern int PluginInit(IntPtr hwnd, DelegateComplete callback);
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr PluginGetControl();
+        public static extern bool PluginHandleWindowMessage(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, out IntPtr result);
     }
 }

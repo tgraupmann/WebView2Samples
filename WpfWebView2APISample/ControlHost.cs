@@ -31,13 +31,10 @@ namespace WpfWebView2APISample
             _hostWidth = (int)width;
         }
 
-        public IntPtr HwndControl { get; private set; }
-
         private void OnCompleteWebView2()
         {
             if (true)
             {
-                //HwndControl = LibControlWebView2.PluginGetControl();
             }
         }
 
@@ -59,6 +56,12 @@ namespace WpfWebView2APISample
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            IntPtr result;
+            handled = LibControlWebView2.PluginHandleWindowMessage(hwnd, msg, wParam, lParam, out result);
+            if (handled)
+            {
+                return result;
+            }
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
 

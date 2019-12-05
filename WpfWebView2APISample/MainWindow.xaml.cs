@@ -15,7 +15,6 @@ namespace WpfWebView2APISample
     public partial class MainWindow : Window
     {
         private Application _app;
-        private IntPtr _hwndControl;
         private ControlHost _win32Control;
         private Window _myWindow;
 
@@ -33,7 +32,6 @@ namespace WpfWebView2APISample
             _win32Control = new ControlHost(ControlHostElement.ActualHeight, ControlHostElement.ActualWidth);
             ControlHostElement.Child = _win32Control;
             _win32Control.MessageHook += ControlMsgFilter;
-            _hwndControl = _win32Control.HwndControl;
 
             _myWindow.SizeToContent = SizeToContent.WidthAndHeight;
         }

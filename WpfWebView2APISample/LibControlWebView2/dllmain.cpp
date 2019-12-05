@@ -6,24 +6,27 @@
 // include WebView2 header
 #include "WebView2.h"
 
+using namespace Microsoft::WRL;
+
 #if _MSC_VER // this is defined when compiling with Visual Studio
 #define EXPORT_API __declspec(dllexport) // Visual Studio needs annotating exported functions with this
 #else
 #define EXPORT_API // XCode does not need annotating exported functions, so define is empty
 #endif
 
-void SetupWebView2()
+void SetupWebView2(HWND hWnd)
 {
-	/*
+	IWebView2WebView* webviewWindow = nullptr;
+
 	// Step 3 - Create a single WebView within the parent window
 	// Locate the browser and set up the environment for WebView
 	CreateWebView2EnvironmentWithDetails(nullptr, nullptr, nullptr,
 		Callback<IWebView2CreateWebView2EnvironmentCompletedHandler>(
-			[hWnd](HRESULT result, IWebView2Environment* env) -> HRESULT {
+			[hWnd, &webviewWindow](HRESULT result, IWebView2Environment* env) -> HRESULT {
 
 				// Create a WebView, whose parent is the main window hWnd
 				env->CreateWebView(hWnd, Callback<IWebView2CreateWebViewCompletedHandler>(
-					[hWnd](HRESULT result, IWebView2WebView* webview) -> HRESULT {
+					[hWnd, &webviewWindow](HRESULT result, IWebView2WebView* webview) -> HRESULT {
 					if (webview != nullptr) {
 						webviewWindow = webview;
 					}
@@ -57,7 +60,6 @@ void SetupWebView2()
 				}).Get());
 			return S_OK;
 		}).Get());
-	*/
 }
 
 extern "C"
@@ -65,7 +67,7 @@ extern "C"
 
 	EXPORT_API int PluginInit()
 	{
-		SetupWebView2();
+		SetupWebView2(nullptr);
 		return 123;
 	}
 }

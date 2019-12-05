@@ -87,6 +87,7 @@ extern "C"
 					RECT bounds;
 					GetClientRect(hWnd, &bounds);
 					g_WebviewWindow->put_Bounds(bounds);
+					return true;
 				}
 			}
 			break;

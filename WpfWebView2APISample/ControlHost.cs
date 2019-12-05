@@ -41,7 +41,7 @@ namespace WpfWebView2APISample
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             _hwndHost = CreateWindowEx(0, "static", "",
-                WsChild | WsVisible,
+                WsChild | WsVisible | LbsNotify,
                 0, 0,
                 _hostHeight, _hostWidth,
                 hwndParent.Handle,

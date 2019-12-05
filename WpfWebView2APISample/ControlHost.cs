@@ -32,32 +32,14 @@ namespace WpfWebView2APISample
             _hostWidth = (int)width;
         }
 
-        public IntPtr HwndListBox { get; private set; }
+        public IntPtr HwndControl { get; private set; }
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            HwndListBox = IntPtr.Zero;
-            _hwndHost = IntPtr.Zero;
+            LibControlWebView2.PluginInit(hwndParent.Handle);
 
-            _hwndHost = CreateWindowEx(0, "static", "",
-                WsChild | WsVisible,
-                0, 0,
-                _hostHeight, _hostWidth,
-                hwndParent.Handle,
-                (IntPtr)HostId,
-                IntPtr.Zero,
-                0);
-
-            HwndListBox = CreateWindowEx(0, "listbox", "",
-                WsChild | WsVisible | LbsNotify
-                | WsVscroll | WsBorder,
-                0, 0,
-                _hostHeight, _hostWidth,
-                _hwndHost,
-                (IntPtr)ListboxId,
-                IntPtr.Zero,
-                0);
-
+            HwndControl = LibControlWebView2.PluginGetControl();
+            _hwndHost = LibControlWebView2.PluginGetHost();
             return new HandleRef(this, _hwndHost);
         }
 

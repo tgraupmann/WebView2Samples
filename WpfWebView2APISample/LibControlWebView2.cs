@@ -11,6 +11,12 @@ namespace WpfWebView2APISample
         const string DLL_NAME = "LibControlWebView2";
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int PluginInit();
+        public static extern int PluginInit(IntPtr hwnd);
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr PluginGetControl();
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr PluginGetHost();
     }
 }

@@ -14,27 +14,27 @@ using namespace Microsoft::WRL;
 #define EXPORT_API // XCode does not need annotating exported functions, so define is empty
 #endif
 
+IWebView2WebView* g_WebviewWindow = nullptr;
+
 void SetupWebView2(HWND hWnd)
 {
-	IWebView2WebView* webviewWindow = nullptr;
-
 	// Step 3 - Create a single WebView within the parent window
 	// Locate the browser and set up the environment for WebView
 	CreateWebView2EnvironmentWithDetails(nullptr, nullptr, nullptr,
 		Callback<IWebView2CreateWebView2EnvironmentCompletedHandler>(
-			[hWnd, &webviewWindow](HRESULT result, IWebView2Environment* env) -> HRESULT {
+			[hWnd](HRESULT result, IWebView2Environment* env) -> HRESULT {
 
 				// Create a WebView, whose parent is the main window hWnd
 				env->CreateWebView(hWnd, Callback<IWebView2CreateWebViewCompletedHandler>(
-					[hWnd, &webviewWindow](HRESULT result, IWebView2WebView* webview) -> HRESULT {
+					[hWnd](HRESULT result, IWebView2WebView* webview) -> HRESULT {
 					if (webview != nullptr) {
-						webviewWindow = webview;
+						g_WebviewWindow = webview;
 					}
 
 					// Add a few settings for the webview
 					// this is a redundant demo step as they are the default settings values
 					IWebView2Settings* Settings;
-					webviewWindow->get_Settings(&Settings);
+					g_WebviewWindow->get_Settings(&Settings);
 					Settings->put_IsScriptEnabled(TRUE);
 					Settings->put_AreDefaultScriptDialogsEnabled(TRUE);
 					Settings->put_IsWebMessageEnabled(TRUE);
@@ -42,10 +42,10 @@ void SetupWebView2(HWND hWnd)
 					// Resize WebView to fit the bounds of the parent window
 					RECT bounds;
 					GetClientRect(hWnd, &bounds);
-					webviewWindow->put_Bounds(bounds);
+					g_WebviewWindow->put_Bounds(bounds);
 
 					// Schedule an async task to navigate to Bing
-					webviewWindow->Navigate(L"https://www.bing.com/");
+					g_WebviewWindow->Navigate(L"https://www.bing.com/");
 
 					// Step 4 - Navigation events
 
@@ -65,10 +65,20 @@ void SetupWebView2(HWND hWnd)
 extern "C"
 {
 
-	EXPORT_API int PluginInit()
+	EXPORT_API int PluginInit(HWND hWnd)
 	{
-		SetupWebView2(nullptr);
+		SetupWebView2(hWnd);
 		return 123;
+	}
+
+	EXPORT_API HWND PluginGetControl()
+	{
+		return nullptr;
+	}
+
+	EXPORT_API HWND PluginGetHost()
+	{
+		return nullptr;
 	}
 }
 
